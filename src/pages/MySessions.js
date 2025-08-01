@@ -48,7 +48,7 @@ import {
   Business,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const MySessions = () => {
   const { user } = useAuth();
@@ -70,7 +70,7 @@ const MySessions = () => {
   const fetchSessions = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/students/sessions');
+      const response = await api.get('/api/students/sessions');
       // Ensure sessions is always an array
       const sessionsData = Array.isArray(response.data) ? response.data : 
                           response.data.sessions ? response.data.sessions : 
@@ -126,7 +126,7 @@ const MySessions = () => {
 
   const handleReviewSubmit = async () => {
     try {
-      await axios.post(`/api/students/sessions/${selectedSession._id}/review`, reviewData);
+      await api.post(`/api/students/sessions/${selectedSession._id}/review`, reviewData);
       setReviewDialog(false);
       setReviewData({ rating: 0, comment: '' });
       fetchSessions(); // Refresh data
@@ -137,7 +137,7 @@ const MySessions = () => {
 
   const handleCancelSession = async (sessionId) => {
     try {
-      await axios.put(`/api/students/sessions/${sessionId}/cancel`);
+      await api.put(`/api/students/sessions/${sessionId}/cancel`);
       fetchSessions(); // Refresh data
     } catch (error) {
       console.error('Error cancelling session:', error);

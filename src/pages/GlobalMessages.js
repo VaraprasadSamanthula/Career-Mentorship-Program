@@ -54,7 +54,7 @@ import {
   Announcement,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
 const GlobalMessages = () => {
@@ -102,7 +102,7 @@ const GlobalMessages = () => {
       setLoading(true);
       console.log('Fetching global messages for page:', currentPage);
       
-      const response = await axios.get(`/api/chat/global?page=${currentPage}&limit=20`);
+      const response = await api.get(`/api/chat/global?page=${currentPage}&limit=20`);
       console.log('Global messages fetched successfully:', response.data);
       
       // Debug: Log the structure of the first message
@@ -174,7 +174,7 @@ const GlobalMessages = () => {
         user: user.email
       });
 
-      const response = await axios.post('/api/chat/global', {
+      const response = await api.post('/api/chat/global', {
         title: messageTitle || 'Global Message',
         content: messageContent
       });

@@ -54,7 +54,7 @@ import {
   Add,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 import MentorAvailability from './MentorAvailability';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -123,8 +123,8 @@ const MentorDashboard = () => {
       setLoading(true);
       
       const [sessionsRes, statsRes] = await Promise.all([
-        axios.get('/api/mentors/sessions'),
-        axios.get('/api/mentors/stats'),
+        api.get('/api/mentors/sessions'),
+        api.get('/api/mentors/stats'),
       ]);
 
       setSessions(sessionsRes.data);
@@ -151,7 +151,7 @@ const MentorDashboard = () => {
 
   const handleSessionAction = async (sessionId, action) => {
     try {
-      await axios.put(`/api/mentors/sessions/${sessionId}`, { status: action });
+      await api.put(`/api/mentors/sessions/${sessionId}`, { status: action });
       fetchDashboardData();
       setSessionDialog(false);
     } catch (error) {
@@ -199,7 +199,7 @@ const MentorDashboard = () => {
   const handleCompleteSession = async () => {
     try {
       const sessionId = selectedSession._id;
-      await axios.put(`/api/mentors/sessions/${sessionId}`, {
+      await api.put(`/api/mentors/sessions/${sessionId}`, {
         status: 'completed',
         actualDuration: parseInt(completionData.duration) || 0,
         mentorNotes: completionData.notes,
@@ -240,7 +240,7 @@ const MentorDashboard = () => {
 
   const handleBulkCompleteSessions = async () => {
     try {
-      await axios.post('/api/mentors/sessions/bulk-complete', {
+      await api.post('/api/mentors/sessions/bulk-complete', {
         sessionIds: selectedSessionsForBulk
       });
       setSuccess('Sessions marked as complete!');
@@ -254,7 +254,7 @@ const MentorDashboard = () => {
 
   const fetchMentorResources = async () => {
     try {
-      const response = await axios.get('/api/resources', {
+      const response = await api.get('/api/resources', {
         params: { createdBy: user._id }
       });
       const resourceList = Array.isArray(response.data) 
@@ -273,7 +273,7 @@ const MentorDashboard = () => {
         return;
       }
 
-      await axios.post('/api/resources', newResource);
+      await api.post('/api/resources', newResource);
       setSuccess('Resource submitted for approval!');
       setResourceDialog(false);
       setNewResource({

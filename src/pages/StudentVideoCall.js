@@ -26,7 +26,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 import JitsiMeet from '../components/JitsiMeet';
 
 const StudentVideoCall = () => {
@@ -66,7 +66,7 @@ const StudentVideoCall = () => {
 
   const fetchSessionInfo = async (sessionId) => {
     try {
-      const response = await axios.get(`/api/sessions/${sessionId}`);
+      const response = await api.get(`/api/sessions/${sessionId}`);
       setSessionInfo(response.data);
     } catch (err) {
       setError('Failed to load session information');

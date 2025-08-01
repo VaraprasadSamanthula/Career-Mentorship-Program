@@ -1,15 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import socketService from '../services/socketService';
-
-// Set up axios base URL
-axios.defaults.baseURL = 'http://localhost:5000';
-
-// On app load, set Authorization header if token exists
-const token = localStorage.getItem('token');
-if (token) {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
 
 const AuthContext = createContext();
 
@@ -26,11 +17,11 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Set up axios defaults
+  // Set up api defaults
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      // The api instance already handles token in interceptors
     }
   }, []);
 
@@ -40,7 +31,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await axios.get('/api/auth/profile');
+          const response = await api.get('/api/auth/profile');
           setUser(response.data.user);
           
           // Initialize Socket.IO connection for existing user
@@ -49,7 +40,6 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
           console.error('Auth check failed:', error);
           localStorage.removeItem('token');
-          delete axios.defaults.headers.common['Authorization'];
         }
       }
       setLoading(false);
@@ -61,14 +51,13 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       setError(null);
-      const response = await axios.post('/api/auth/login', {
+      const response = await api.post('/api/auth/login', {
         email,
         password,
       });
 
       const { token, user } = response.data;
       localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(user);
       
       // Initialize Socket.IO connection
@@ -106,12 +95,11 @@ export const AuthProvider = ({ children }) => {
       setError(null);
       console.log('AuthContext: Attempting registration with data:', userData);
       
-      const response = await axios.post('/api/auth/register', userData);
+      const response = await api.post('/api/auth/register', userData);
       console.log('AuthContext: Registration response:', response.data);
 
       const { token, user } = response.data;
       localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(user);
       return { success: true };
     } catch (error) {
@@ -135,7 +123,6 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
-    delete axios.defaults.headers.common['Authorization'];
     setUser(null);
     setError(null);
     
@@ -146,7 +133,7 @@ export const AuthProvider = ({ children }) => {
   const updateProfile = async (profileData) => {
     try {
       setError(null);
-      const response = await axios.put('/api/auth/profile', profileData);
+      const response = await api.put('/api/auth/profile', profileData);
       setUser(response.data.user);
       return { success: true };
     } catch (error) {
@@ -159,7 +146,7 @@ export const AuthProvider = ({ children }) => {
   const changePassword = async (currentPassword, newPassword) => {
     try {
       setError(null);
-      await axios.put('/api/auth/change-password', {
+      await api.put('/api/auth/change-password', {
         currentPassword,
         newPassword,
       });

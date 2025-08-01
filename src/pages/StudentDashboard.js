@@ -61,7 +61,7 @@ import {
   Share,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const StudentDashboard = () => {
   const { user } = useAuth();
@@ -96,10 +96,10 @@ const StudentDashboard = () => {
       setLoading(true);
       // Fetch mentors, sessions, resources, and stats
       const [mentorsRes, sessionsRes, resourcesRes, statsRes] = await Promise.all([
-        axios.get('/api/students/mentors?limit=50'), // Request more mentors
-        axios.get('/api/students/sessions'),
-        axios.get('/api/resources'),
-        axios.get('/api/students/stats'),
+        api.get('/api/students/mentors?limit=50'), // Request more mentors
+        api.get('/api/students/sessions'),
+        api.get('/api/resources'),
+        api.get('/api/students/stats'),
       ]);
 
       // Handle mentors data - it could be an array or object with mentors property
@@ -145,7 +145,7 @@ const StudentDashboard = () => {
       };
 
       console.log('Sending session data:', sessionData);
-      await axios.post('/api/students/sessions', sessionData);
+      await api.post('/api/students/sessions', sessionData);
       
       // Reset form and close dialog
       setBookingDialog(false);

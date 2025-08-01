@@ -32,7 +32,7 @@ import {
   Star,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Quiz = () => {
   const { user } = useAuth();
@@ -128,7 +128,7 @@ const Quiz = () => {
         selectedOption: parseInt(selectedOption)
       }));
 
-      const response = await axios.post('/api/quiz/submit', {
+      const response = await api.post('/api/quiz/submit', {
         answers: formattedAnswers
       });
       setResults(response.data);

@@ -63,7 +63,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 
 const MentorProfileSettings = () => {
   const { user, updateProfile } = useAuth();
@@ -179,7 +179,7 @@ const MentorProfileSettings = () => {
         return;
       }
 
-      const response = await axios.get('/api/auth/profile');
+      const response = await api.get('/api/auth/profile');
       const data = response.data;
 
       setProfileData({
@@ -240,7 +240,7 @@ const MentorProfileSettings = () => {
         preferences: profileData.preferences
       };
 
-      await axios.put('/api/auth/profile', updateData);
+      await api.put('/api/auth/profile', updateData);
       setSuccess('Profile updated successfully!');
       setEditMode(false);
       

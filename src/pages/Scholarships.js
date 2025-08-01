@@ -136,7 +136,7 @@ import {
   LockOpen,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Scholarships = () => {
   const { user } = useAuth();
@@ -164,7 +164,7 @@ const Scholarships = () => {
   const fetchScholarships = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/students/scholarships');
+      const response = await api.get('/api/students/scholarships');
       // Ensure scholarships is always an array
       const scholarshipsData = Array.isArray(response.data) ? response.data : 
                               response.data.scholarships ? response.data.scholarships : 
@@ -180,7 +180,7 @@ const Scholarships = () => {
 
   const fetchApplications = async () => {
     try {
-      const response = await axios.get('/api/students/applications');
+      const response = await api.get('/api/students/applications');
       // Ensure applications is always an array
       const applicationsData = Array.isArray(response.data) ? response.data : 
                               response.data.applications ? response.data.applications : 
@@ -303,7 +303,7 @@ const Scholarships = () => {
 
   const handleApply = async (scholarshipId) => {
     try {
-      await axios.post('/api/students/applications', {
+      await api.post('/api/students/applications', {
         scholarshipId,
       });
       fetchApplications();
@@ -315,7 +315,7 @@ const Scholarships = () => {
 
   const handleSaveScholarship = async (scholarshipId) => {
     try {
-      await axios.post(`/api/students/scholarships/${scholarshipId}/save`);
+      await api.post(`/api/students/scholarships/${scholarshipId}/save`);
       fetchScholarships();
     } catch (error) {
       console.error('Error saving scholarship:', error);

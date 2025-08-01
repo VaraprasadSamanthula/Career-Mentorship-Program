@@ -53,7 +53,7 @@ import {
   Share
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const MentorFiles = () => {
   const { user } = useAuth();
@@ -100,7 +100,7 @@ const MentorFiles = () => {
       if (searchQuery) params.append('search', searchQuery);
       if (selectedCategory) params.append('category', selectedCategory);
 
-      const response = await axios.get(`/api/files?${params}`);
+      const response = await api.get(`/api/files?${params}`);
       setFiles(response.data.files);
       setPagination(response.data.pagination);
     } catch (error) {
@@ -114,7 +114,7 @@ const MentorFiles = () => {
   const fetchCategories = async () => {
     try {
       console.log('Fetching categories...');
-      const response = await axios.get('/api/files/categories');
+      const response = await api.get('/api/files/categories');
       console.log('Categories response:', response.data);
       setCategories(response.data);
     } catch (error) {
@@ -146,7 +146,7 @@ const MentorFiles = () => {
       formData.append('tags', uploadForm.tags);
       formData.append('isPublic', uploadForm.isPublic);
 
-      const response = await axios.post('/api/files/upload', formData, {
+      const response = await api.post('/api/files/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -166,7 +166,7 @@ const MentorFiles = () => {
 
   const handleDownload = async (fileId, filename) => {
     try {
-      const response = await axios.get(`/api/files/download/${fileId}`, {
+      const response = await api.get(`/api/files/download/${fileId}`, {
         responseType: 'blob',
       });
 
@@ -187,7 +187,7 @@ const MentorFiles = () => {
     if (!window.confirm('Are you sure you want to delete this file?')) return;
 
     try {
-      await axios.delete(`/api/files/${fileId}`);
+      await api.delete(`/api/files/${fileId}`);
       setSuccess('File deleted successfully!');
       fetchFiles();
     } catch (error) {
@@ -198,7 +198,7 @@ const MentorFiles = () => {
 
   const handleEdit = async () => {
     try {
-      const response = await axios.put(`/api/files/${selectedFile._id}`, {
+      const response = await api.put(`/api/files/${selectedFile._id}`, {
         title: selectedFile.title,
         description: selectedFile.description,
         category: selectedFile.category,

@@ -30,7 +30,7 @@ import {
   Close,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 import JitsiMeet from './JitsiMeet';
 
 const VideoCall = ({ open, onClose, sessionId, studentId, studentName }) => {
@@ -78,7 +78,7 @@ const VideoCall = ({ open, onClose, sessionId, studentId, studentName }) => {
     
     try {
       // Update session status to 'in-progress'
-      await axios.put(`/api/sessions/${sessionId}/status`, {
+      await api.put(`/api/sessions/${sessionId}/status`, {
         status: 'in-progress',
         startTime: new Date().toISOString()
       });
@@ -96,7 +96,7 @@ const VideoCall = ({ open, onClose, sessionId, studentId, studentName }) => {
     
     try {
       // Update session status to 'completed'
-      await axios.put(`/api/sessions/${sessionId}/status`, {
+      await api.put(`/api/sessions/${sessionId}/status`, {
         status: 'completed',
         endTime: new Date().toISOString(),
         duration: callDuration

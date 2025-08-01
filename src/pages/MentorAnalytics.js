@@ -39,7 +39,7 @@ import {
   PieChart,
   Timeline
 } from '@mui/icons-material';
-import axios from 'axios';
+import api from '../utils/api';
 
 const MentorAnalytics = () => {
   const [loading, setLoading] = useState(true);
@@ -57,8 +57,8 @@ const MentorAnalytics = () => {
     try {
       setLoading(true);
       const [statsRes, sessionsRes] = await Promise.all([
-        axios.get('/api/mentors/stats'),
-        axios.get('/api/mentors/sessions')
+        api.get('/api/mentors/stats'),
+        api.get('/api/mentors/sessions')
       ]);
       
       setStats(statsRes.data);

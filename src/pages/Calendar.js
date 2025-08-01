@@ -182,7 +182,7 @@ import {
   DirectionsRailway,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Calendar = () => {
   const { user } = useAuth();
@@ -204,8 +204,8 @@ const Calendar = () => {
     try {
       setLoading(true);
       const [eventsRes, sessionsRes] = await Promise.all([
-        axios.get('/api/students/events'),
-        axios.get('/api/students/sessions'),
+        api.get('/api/students/events'),
+        api.get('/api/students/sessions'),
       ]);
       
       // Ensure data is always an array
@@ -348,7 +348,7 @@ const Calendar = () => {
 
   const handleCancelSession = async (sessionId) => {
     try {
-      await axios.put(`/api/students/sessions/${sessionId}/cancel`);
+      await api.put(`/api/students/sessions/${sessionId}/cancel`);
       fetchCalendarData();
       setEventDialog(false);
     } catch (error) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Paper, IconButton, TextField, MenuItem, Select, InputLabel, FormControl, Alert } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
-import axios from 'axios';
+import api from '../utils/api';
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -81,7 +81,7 @@ const MentorAvailability = ({ mentor, onClose }) => {
       
       console.log('Sending availability data:', { schedule: validSchedule, timezone });
       
-      await axios.put('/api/mentors/availability', { 
+      await api.put('/api/mentors/availability', { 
         schedule: validSchedule, 
         timezone 
       });

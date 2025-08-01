@@ -49,7 +49,7 @@ import {
   Public,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
 const Messages = () => {
@@ -91,7 +91,7 @@ const Messages = () => {
   const fetchConversations = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/students/conversations');
+      const response = await api.get('/api/students/conversations');
       // Ensure conversations is always an array
       const conversationsData = Array.isArray(response.data) ? response.data : 
                                response.data.conversations ? response.data.conversations : 
@@ -107,7 +107,7 @@ const Messages = () => {
 
   const fetchMessages = async (conversationId) => {
     try {
-      const response = await axios.get(`/api/students/conversations/${conversationId}/messages`);
+      const response = await api.get(`/api/students/conversations/${conversationId}/messages`);
       // Ensure messages is always an array
       const messagesData = Array.isArray(response.data) ? response.data : 
                           response.data.messages ? response.data.messages : 
@@ -123,7 +123,7 @@ const Messages = () => {
     if (!newMessage.trim() || !selectedConversation) return;
 
     try {
-      const response = await axios.post(`/api/students/conversations/${selectedConversation._id}/messages`, {
+      const response = await api.post(`/api/students/conversations/${selectedConversation._id}/messages`, {
         content: newMessage,
       });
 
@@ -163,7 +163,7 @@ const Messages = () => {
 
   const handleStartNewChat = async (userId) => {
     try {
-      const response = await axios.post('/api/students/conversations', {
+      const response = await api.post('/api/students/conversations', {
         participantId: userId,
       });
       setConversations([response.data, ...conversations]);
@@ -180,7 +180,7 @@ const Messages = () => {
         return;
       }
 
-      await axios.post('/api/chat/broadcast', {
+      await api.post('/api/chat/broadcast', {
         title: broadcastTitle || 'Student Broadcast',
         content: broadcastContent
       });

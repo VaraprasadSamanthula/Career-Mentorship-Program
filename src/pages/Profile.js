@@ -44,7 +44,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Profile = () => {
   const { user, updateProfile } = useAuth();
@@ -146,7 +146,7 @@ const Profile = () => {
         return;
       }
       
-      const response = await axios.get('/api/auth/profile');
+      const response = await api.get('/api/auth/profile');
       if (response.data.user && response.data.profile) {
         setProfileData({
           personal: {
@@ -207,7 +207,7 @@ const Profile = () => {
         preferences: profileData.preferences
       };
 
-      await axios.put('/api/auth/profile', updateData);
+      await api.put('/api/auth/profile', updateData);
       setSuccess('Profile updated successfully!');
       setEditMode(false);
     } catch (error) {

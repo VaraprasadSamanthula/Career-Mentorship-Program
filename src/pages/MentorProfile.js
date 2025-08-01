@@ -67,7 +67,7 @@ import {
   School as SchoolIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const MentorProfile = () => {
   const { user } = useAuth();
@@ -130,7 +130,7 @@ const MentorProfile = () => {
   const fetchMentors = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/students/mentors?limit=100'); // Request more mentors
+      const response = await api.get('/api/students/mentors?limit=100'); // Request more mentors
       const mentorList = Array.isArray(response.data) 
         ? response.data 
         : (response.data.mentors || []);
@@ -194,7 +194,7 @@ const MentorProfile = () => {
   const handleBookSessionConfirm = async () => {
     setBookingLoading(true);
     try {
-      await axios.post('/api/students/sessions', {
+      await api.post('/api/students/sessions', {
         mentorId: bookingDetails.mentor._id,
         day: bookingDetails.day,
         startTime: bookingDetails.slot.startTime,

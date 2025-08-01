@@ -1,9 +1,9 @@
-import axios from 'axios';
+import api from '../utils/api';
 
 // Admin Dashboard Statistics
 export const getAdminStats = async () => {
   try {
-    const response = await axios.get('/api/admin/stats');
+    const response = await api.get('/api/admin/stats');
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to fetch admin statistics' };
@@ -13,7 +13,7 @@ export const getAdminStats = async () => {
 // User Management
 export const getPendingMentors = async () => {
   try {
-    const response = await axios.get('/api/admin/pending-mentors');
+    const response = await api.get('/api/admin/pending-mentors');
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to fetch pending mentors' };
@@ -22,7 +22,7 @@ export const getPendingMentors = async () => {
 
 export const getAllUsers = async () => {
   try {
-    const response = await axios.get('/api/admin/users');
+    const response = await api.get('/api/admin/users');
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to fetch users' };
@@ -31,7 +31,7 @@ export const getAllUsers = async () => {
 
 export const updateUserStatus = async (userId, status) => {
   try {
-    const response = await axios.put(`/api/admin/users/${userId}`, { status });
+    const response = await api.put(`/api/admin/users/${userId}`, { status });
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to update user status' };
@@ -41,7 +41,7 @@ export const updateUserStatus = async (userId, status) => {
 // Mentor Verification
 export const approveMentor = async (mentorId) => {
   try {
-    const response = await axios.post('/api/admin/mentors/approve', { mentorId });
+    const response = await api.post('/api/admin/mentors/approve', { mentorId });
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to approve mentor' };
@@ -50,7 +50,7 @@ export const approveMentor = async (mentorId) => {
 
 export const rejectMentor = async (mentorId) => {
   try {
-    const response = await axios.post('/api/admin/mentors/reject', { mentorId });
+    const response = await api.post('/api/admin/mentors/reject', { mentorId });
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to reject mentor' };
@@ -60,7 +60,7 @@ export const rejectMentor = async (mentorId) => {
 // Content Management
 export const addResource = async (resourceData) => {
   try {
-    const response = await axios.post('/api/admin/resources', resourceData);
+    const response = await api.post('/api/admin/resources', resourceData);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to add resource' };
@@ -69,7 +69,7 @@ export const addResource = async (resourceData) => {
 
 export const updateResource = async (resourceId, resourceData) => {
   try {
-    const response = await axios.put(`/api/admin/resources/${resourceId}`, resourceData);
+    const response = await api.put(`/api/admin/resources/${resourceId}`, resourceData);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to update resource' };
@@ -78,7 +78,7 @@ export const updateResource = async (resourceId, resourceData) => {
 
 export const deleteResource = async (resourceId) => {
   try {
-    const response = await axios.delete(`/api/admin/resources/${resourceId}`);
+    const response = await api.delete(`/api/admin/resources/${resourceId}`);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to delete resource' };
@@ -88,7 +88,7 @@ export const deleteResource = async (resourceId) => {
 // Session Management
 export const getAllSessions = async () => {
   try {
-    const response = await axios.get('/api/admin/sessions');
+    const response = await api.get('/api/admin/sessions');
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to fetch sessions' };
@@ -98,7 +98,7 @@ export const getAllSessions = async () => {
 // Reports and Issues
 export const getReports = async () => {
   try {
-    const response = await axios.get('/api/admin/reports');
+    const response = await api.get('/api/admin/reports');
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to fetch reports' };
@@ -107,7 +107,7 @@ export const getReports = async () => {
 
 export const resolveReport = async (reportId) => {
   try {
-    const response = await axios.post(`/api/admin/reports/${reportId}/resolve`);
+    const response = await api.post(`/api/admin/reports/${reportId}/resolve`);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to resolve report' };
@@ -116,7 +116,7 @@ export const resolveReport = async (reportId) => {
 
 export const dismissReport = async (reportId) => {
   try {
-    const response = await axios.post(`/api/admin/reports/${reportId}/dismiss`);
+    const response = await api.post(`/api/admin/reports/${reportId}/dismiss`);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to dismiss report' };
@@ -126,7 +126,7 @@ export const dismissReport = async (reportId) => {
 // Notifications
 export const getNotifications = async () => {
   try {
-    const response = await axios.get('/api/admin/notifications');
+    const response = await api.get('/api/admin/notifications');
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to fetch notifications' };
@@ -135,7 +135,7 @@ export const getNotifications = async () => {
 
 export const sendNotification = async (type, message) => {
   try {
-    const response = await axios.post('/api/admin/notifications/send', { type, message });
+    const response = await api.post('/api/admin/notifications/send', { type, message });
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to send notification' };
@@ -145,7 +145,7 @@ export const sendNotification = async (type, message) => {
 // Analytics
 export const getAnalytics = async (period = 'month') => {
   try {
-    const response = await axios.get(`/api/admin/analytics?period=${period}`);
+    const response = await api.get(`/api/admin/analytics?period=${period}`);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to fetch analytics' };
@@ -155,7 +155,7 @@ export const getAnalytics = async (period = 'month') => {
 // Scholarship Recommendation Engine
 export const getScholarshipRecommendations = async (studentData) => {
   try {
-    const response = await axios.post('/api/admin/scholarship-recommendations', studentData);
+    const response = await api.post('/api/admin/scholarship-recommendations', studentData);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to get scholarship recommendations' };
@@ -165,7 +165,7 @@ export const getScholarshipRecommendations = async (studentData) => {
 // Automated Email/SMS Notifications
 export const sendBulkNotification = async (notificationData) => {
   try {
-    const response = await axios.post('/api/admin/bulk-notifications', notificationData);
+    const response = await api.post('/api/admin/bulk-notifications', notificationData);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to send bulk notification' };
@@ -175,7 +175,7 @@ export const sendBulkNotification = async (notificationData) => {
 // Session Reminders
 export const sendSessionReminders = async () => {
   try {
-    const response = await axios.post('/api/admin/session-reminders');
+    const response = await api.post('/api/admin/session-reminders');
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to send session reminders' };
@@ -185,7 +185,7 @@ export const sendSessionReminders = async () => {
 // Weekly Reports
 export const generateWeeklyReport = async () => {
   try {
-    const response = await axios.post('/api/admin/weekly-reports');
+    const response = await api.post('/api/admin/weekly-reports');
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to generate weekly report' };
@@ -195,7 +195,7 @@ export const generateWeeklyReport = async () => {
 // Platform Moderation
 export const moderateContent = async (contentId, action, reason) => {
   try {
-    const response = await axios.post('/api/admin/moderate-content', {
+    const response = await api.post('/api/admin/moderate-content', {
       contentId,
       action,
       reason
@@ -209,7 +209,7 @@ export const moderateContent = async (contentId, action, reason) => {
 // Dispute Resolution
 export const resolveDispute = async (disputeId, resolution) => {
   try {
-    const response = await axios.post(`/api/admin/disputes/${disputeId}/resolve`, resolution);
+    const response = await api.post(`/api/admin/disputes/${disputeId}/resolve`, resolution);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to resolve dispute' };
@@ -219,7 +219,7 @@ export const resolveDispute = async (disputeId, resolution) => {
 // System Settings
 export const updateSystemSettings = async (settings) => {
   try {
-    const response = await axios.put('/api/admin/system-settings', settings);
+    const response = await api.put('/api/admin/system-settings', settings);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to update system settings' };
@@ -229,7 +229,7 @@ export const updateSystemSettings = async (settings) => {
 // Backup and Maintenance
 export const createBackup = async () => {
   try {
-    const response = await axios.post('/api/admin/backup');
+    const response = await api.post('/api/admin/backup');
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to create backup' };
@@ -238,7 +238,7 @@ export const createBackup = async () => {
 
 export const performMaintenance = async (maintenanceData) => {
   try {
-    const response = await axios.post('/api/admin/maintenance', maintenanceData);
+    const response = await api.post('/api/admin/maintenance', maintenanceData);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to perform maintenance' };
@@ -248,7 +248,7 @@ export const performMaintenance = async (maintenanceData) => {
 // User Activity Monitoring
 export const getUserActivity = async (userId) => {
   try {
-    const response = await axios.get(`/api/admin/user-activity/${userId}`);
+    const response = await api.get(`/api/admin/user-activity/${userId}`);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to fetch user activity' };
@@ -258,7 +258,7 @@ export const getUserActivity = async (userId) => {
 // Platform Health Check
 export const getPlatformHealth = async () => {
   try {
-    const response = await axios.get('/api/admin/health');
+    const response = await api.get('/api/admin/health');
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to fetch platform health' };

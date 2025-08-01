@@ -48,7 +48,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 
 const AdminProfile = () => {
   const { user, updateProfile } = useAuth();
@@ -112,7 +112,7 @@ const AdminProfile = () => {
         return;
       }
       
-      const response = await axios.get('/api/auth/profile');
+      const response = await api.get('/api/auth/profile');
       if (response.data.user) {
         setProfileData({
           personal: {
@@ -157,10 +157,10 @@ const AdminProfile = () => {
   const fetchAdminStats = async () => {
     try {
       const [statsRes, usersRes, resourcesRes, reportsRes] = await Promise.all([
-        axios.get('/api/admin/stats'),
-        axios.get('/api/admin/users'),
-        axios.get('/api/resources'),
-        axios.get('/api/admin/reports')
+        api.get('/api/admin/stats'),
+        api.get('/api/admin/users'),
+        api.get('/api/resources'),
+        api.get('/api/admin/reports')
       ]);
 
       setAdminStats({
@@ -191,7 +191,7 @@ const AdminProfile = () => {
         preferences: profileData.preferences
       };
 
-      await axios.put('/api/auth/profile', updateData);
+      await api.put('/api/auth/profile', updateData);
       setSuccess('Profile updated successfully!');
       setEditMode(false);
     } catch (error) {

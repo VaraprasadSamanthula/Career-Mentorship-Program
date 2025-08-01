@@ -42,7 +42,7 @@ import {
   Visibility
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const MentorChat = () => {
   const { user } = useAuth();
@@ -77,7 +77,7 @@ const MentorChat = () => {
   const fetchConversations = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/chat/conversations');
+      const response = await api.get('/api/chat/conversations');
       setConversations(response.data);
     } catch (error) {
       console.error('Error fetching conversations:', error);
@@ -89,7 +89,7 @@ const MentorChat = () => {
 
   const fetchMessages = async (conversationId) => {
     try {
-      const response = await axios.get(`/api/chat/conversations/${conversationId}/messages`);
+      const response = await api.get(`/api/chat/conversations/${conversationId}/messages`);
       setMessages(response.data);
     } catch (error) {
       console.error('Error fetching messages:', error);
@@ -99,7 +99,7 @@ const MentorChat = () => {
 
   const fetchUnreadCount = async () => {
     try {
-      const response = await axios.get('/api/chat/unread-count');
+      const response = await api.get('/api/chat/unread-count');
       setUnreadCount(response.data.unreadCount);
     } catch (error) {
       console.error('Error fetching unread count:', error);
@@ -108,7 +108,7 @@ const MentorChat = () => {
 
   const markAsRead = async (conversationId) => {
     try {
-      await axios.put(`/api/chat/conversations/${conversationId}/read`);
+      await api.put(`/api/chat/conversations/${conversationId}/read`);
       fetchUnreadCount();
     } catch (error) {
       console.error('Error marking as read:', error);
@@ -120,7 +120,7 @@ const MentorChat = () => {
 
     try {
       setSending(true);
-      const response = await axios.post(`/api/chat/conversations/${selectedConversation._id}/messages`, {
+      const response = await api.post(`/api/chat/conversations/${selectedConversation._id}/messages`, {
         content: newMessage
       });
 

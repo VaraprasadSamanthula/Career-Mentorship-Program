@@ -129,7 +129,7 @@ import {
   Add,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Bookmarks = () => {
   const { user } = useAuth();
@@ -154,10 +154,10 @@ const Bookmarks = () => {
     try {
       setLoading(true);
       const [mentorsRes, resourcesRes, scholarshipsRes, sessionsRes] = await Promise.all([
-        axios.get('/api/students/bookmarks/mentors'),
-        axios.get('/api/students/bookmarks/resources'),
-        axios.get('/api/students/bookmarks/scholarships'),
-        axios.get('/api/students/bookmarks/sessions'),
+        api.get('/api/students/bookmarks/mentors'),
+        api.get('/api/students/bookmarks/resources'),
+        api.get('/api/students/bookmarks/scholarships'),
+        api.get('/api/students/bookmarks/sessions'),
       ]);
       
       // Ensure each bookmark type is always an array
@@ -244,7 +244,7 @@ const Bookmarks = () => {
 
   const handleRemoveBookmark = async (type, itemId) => {
     try {
-      await axios.delete(`/api/students/bookmarks/${type}/${itemId}`);
+      await api.delete(`/api/students/bookmarks/${type}/${itemId}`);
       fetchBookmarks();
     } catch (error) {
       console.error('Error removing bookmark:', error);
@@ -253,7 +253,7 @@ const Bookmarks = () => {
 
   const handleToggleFavorite = async (type, itemId) => {
     try {
-      await axios.put(`/api/students/bookmarks/${type}/${itemId}/favorite`);
+      await api.put(`/api/students/bookmarks/${type}/${itemId}/favorite`);
       fetchBookmarks();
     } catch (error) {
       console.error('Error toggling favorite:', error);

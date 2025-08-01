@@ -121,7 +121,7 @@ import {
 
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Achievements = () => {
   const { user } = useAuth();
@@ -142,9 +142,9 @@ const Achievements = () => {
     try {
       setLoading(true);
       const [achievementsRes, badgesRes, progressRes] = await Promise.all([
-        axios.get('/api/students/achievements'),
-        axios.get('/api/students/badges'),
-        axios.get('/api/students/progress'),
+        api.get('/api/students/achievements'),
+        api.get('/api/students/badges'),
+        api.get('/api/students/progress'),
       ]);
       
       // Ensure data is always an array

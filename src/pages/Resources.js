@@ -53,7 +53,7 @@ import {
   Link as LinkIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Resources = () => {
   // const { user } = useAuth(); // Unused variable
@@ -122,7 +122,7 @@ const Resources = () => {
   const fetchResources = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/resources?includeMentorFiles=true');
+      const response = await api.get('/api/resources?includeMentorFiles=true');
       // Handle different response structures
       const resourceList = Array.isArray(response.data) 
         ? response.data 
@@ -154,7 +154,7 @@ const Resources = () => {
       if (resource.isMentorFile) {
         console.log('Handling mentor file download');
         // For mentor files, use the file download endpoint
-        const response = await axios.get(`/api/files/download/${resource._id}`, {
+        const response = await api.get(`/api/files/download/${resource._id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           },
@@ -176,7 +176,7 @@ const Resources = () => {
       } else {
         console.log('Handling regular resource download');
         // Handle regular resources
-        const response = await axios.post(`/api/resources/${resource._id}/download`, {}, {
+        const response = await api.post(`/api/resources/${resource._id}/download`, {}, {
           headers: {
             'Authorization': `Bearer ${token}`
           },

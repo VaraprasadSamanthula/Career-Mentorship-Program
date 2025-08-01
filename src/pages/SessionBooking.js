@@ -48,7 +48,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 
 const SessionBooking = () => {
   const { user } = useAuth();
@@ -102,7 +102,7 @@ const SessionBooking = () => {
   const fetchMentors = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/students/mentors?limit=100'); // Request more mentors
+      const response = await api.get('/api/students/mentors?limit=100'); // Request more mentors
       const mentorList = Array.isArray(response.data) 
         ? response.data 
         : (response.data.mentors || []);
@@ -169,7 +169,7 @@ const SessionBooking = () => {
         topics: topics,
       };
 
-      const response = await axios.post('/api/students/sessions', sessionData);
+      const response = await api.post('/api/students/sessions', sessionData);
       setSuccess('Session booked successfully! Redirecting to sessions page...');
       // Navigate back to sessions page after successful booking
       setTimeout(() => {

@@ -90,7 +90,7 @@ import {
   MoreVert,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -137,13 +137,13 @@ const AdminDashboard = () => {
       setLoading(true);
       setError('');
       const [statsRes, mentorsRes, usersRes, resourcesRes, sessionsRes, reportsRes, notificationsRes] = await Promise.all([
-        axios.get('/api/admin/stats'),
-        axios.get('/api/admin/pending-mentors'),
-        axios.get('/api/admin/users'),
-        axios.get('/api/resources'),
-        axios.get('/api/admin/sessions'),
-        axios.get('/api/admin/reports'),
-        axios.get('/api/admin/notifications')
+        api.get('/api/admin/stats'),
+        api.get('/api/admin/pending-mentors'),
+        api.get('/api/admin/users'),
+        api.get('/api/resources'),
+        api.get('/api/admin/sessions'),
+        api.get('/api/admin/reports'),
+        api.get('/api/admin/notifications')
       ]);
 
       setStats(statsRes.data);
@@ -175,7 +175,7 @@ const AdminDashboard = () => {
         payload.rejectionReason = rejectionReason;
       }
       
-      await axios.post(`/api/admin/mentors/${action}`, payload);
+      await api.post(`/api/admin/mentors/${action}`, payload);
       setSuccess(`Mentor ${action} successfully!`);
       setRejectionReason('');
       fetchDashboardData();
@@ -187,7 +187,7 @@ const AdminDashboard = () => {
 
   const handleUserAction = async (userId, action) => {
     try {
-      await axios.put(`/api/admin/users/${userId}`, { status: action });
+      await api.put(`/api/admin/users/${userId}`, { status: action });
       setSuccess(`User ${action} successfully!`);
       fetchDashboardData();
       setDialogOpen(false);
@@ -206,7 +206,7 @@ const AdminDashboard = () => {
       setNotificationSettings(newSettings);
       
       // Save settings to backend
-      await axios.put('/api/admin/notifications', newSettings);
+      await api.put('/api/admin/notifications', newSettings);
       setSuccess('Notification settings updated successfully!');
     } catch (error) {
       console.error('Update notification settings error:', error);
@@ -221,7 +221,7 @@ const AdminDashboard = () => {
 
   const handleAddResource = async () => {
     try {
-      await axios.post('/api/admin/resources', newResource);
+      await api.post('/api/admin/resources', newResource);
       setSuccess('Resource added successfully!');
       setResourceDialog(false);
       setNewResource({
@@ -242,7 +242,7 @@ const AdminDashboard = () => {
 
   const handleReportAction = async (reportId, action) => {
     try {
-      await axios.post(`/api/admin/reports/${reportId}/${action}`);
+      await api.post(`/api/admin/reports/${reportId}/${action}`);
       setSuccess(`Report ${action} successfully`);
       fetchDashboardData();
     } catch (error) {
@@ -260,7 +260,7 @@ const AdminDashboard = () => {
         return;
       }
 
-      const response = await axios.post('/api/admin/notifications/send', { 
+      const response = await api.post('/api/admin/notifications/send', { 
         type, 
         message: message.trim(),
         title: type === 'email' ? 'Platform Update' : 'New Notification'
